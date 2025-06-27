@@ -1,6 +1,9 @@
 <?php
 header("Access-Control-Allow-Origin: *");
 include_once('connection.php');
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+ob_implicit_flush(true);
 include_once('userdata.php');
 date_default_timezone_set('Asia/Dhaka');
 $today = date("Y-m-d H:i:s");
