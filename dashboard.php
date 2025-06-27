@@ -388,9 +388,10 @@ where  1=1 $queserysql
 group by examdata.id
   ";
 	  echo 'data checking here';
-	   
+      var_dump($conn);
     $result = mysqli_query($conn, $sql);
     var_dump($result);
+    
     if (!$result) {
         // SQL error occurred
         die("Query failed: " . mysqli_error($conn));
