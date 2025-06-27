@@ -1,0 +1,492 @@
+.elegant-calencar {
+    max-width: 900px;
+}
+                        .datetd {
+                        background-color: #0051ff1f!important;
+                        border: 1px solid #00cc94a1;
+                        }
+                        tbody td:after{
+                            height: 100%!important;
+                            width: auto;
+                        }
+                        .star {
+                          height: 100px;
+                          width: 100px;
+                          -webkit-clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+                          clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+                          text-align: center;
+                          background: red;
+                          color: white;
+                        }
+                        
+                        .star::before {
+                          
+                          height: 100%;
+                          background: blue;
+                          vertical-align: middle;
+                          content: '';
+                        }
+                        .head-day {
+                        font-size: 1em;
+                       
+                    }
+                    .starx {
+                         color: #007bff;
+                     }
+                     .head-month {
+    text-transform: capitalize;
+    font-size: 1em;
+    margin-top: 7px;
+    padding-left: 2px;
+}
+.todayexams, .message {
+    color: #007bff;
+    font-size: 1em;
+    text-align: center;
+    margin: 0 auto;
+}
+.details {
+    cursor: pointer;
+    margin-top: 15px;
+}
+.digital-clock {
+     
+   
+    
+    right: 15px;
+    
+     
+    width: auto;
+    
+    color: blue;
+    text-align: center;
+    margin-top: 2px;
+    font-size: 1em;
+}
+.yesbutton {
+    position: relative;
+}
+.yesnumber {
+    position: absolute;
+    top: -20px;
+}
+.nobutton {
+    position: relative;
+       
+}
+
+.nonumber {
+    position: absolute;
+    bottom: -20px;
+}
+.marginleft15px{
+     margin-left: 10px;
+}
+.monthexam {
+    font-size: 1.3em;
+    color: #fff;
+    font-weight: bold;
+}
+.getinfo {
+    position: relative;
+    margin: 0 auto;
+    width: 60%;
+}
+.floatleft{
+    float:left;
+}
+.clear{
+    clear:both;
+}
+.calendar-wrap {
+    
+    padding: 2px 20px 20px 20px;
+}
+.headerclass {
+    font-size: 1.4em;
+    margin-bottom: 0;
+}
+tbody td:hover:after, .selected:after {
+    background: #ccc;
+      border: 1px solid #00cc94a1;
+    
+}
+
+tbody td {
+   
+    background-color: #0051ff1f;
+    height: 100%!important;
+    vertical-align: baseline!important;
+    
+}
+tbody td:hover {
+   
+    background-color: #0051ff1f;
+    height: 100%!important;
+    
+}
+.mustrequired{
+    color:red;
+}
+.exserial {
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    background-color: #3ff11e;
+    width: 20px;
+    height: 25px;
+    border: 1px solid #ccc;
+}
+#disabled {
+    pointer-events: none;
+}
+.addexambutton {
+    cursor: pointer;
+    margin-top: 25px;
+}
+.loginnow, .signupnow {
+    cursor: pointer;
+    color:blue;
+}
+ul li a {
+    color: blue;
+    font-size: 1em;
+    font-weight: bold;
+    padding-left: 10px!important;
+    padding-right: 10px!important;
+}
+.dividebyother{
+    margin-bottom:10px;
+}
+.container{
+        max-width: 900px;
+    }
+    .tdalldata {
+    position: relative;
+    padding-bottom: 10px;
+}
+ .dateviewa {
+    
+}
+    .eventviewall {
+   
+}
+.stardiv {
+    font-size: 1em;
+    color: red;
+    font-weight: bold;
+  
+}
+a.nav-link.active {
+    background-color: #10ed36;
+    border-radius: 5px;
+   
+}
+a.nav-link {
+    padding: 1px 2px;
+}
+.disabledivwishlist {
+    opacity: .2;
+    pointer-events: none;
+}
+.lovebutton{
+    cursor: pointer;
+}
+.loginlogout a.nav-link.login {
+    padding: 0;
+    line-height: 10px;
+    margin-bottom: 10px;
+    margin-top: -10px;
+    font-size: .9em;
+}
+.menulink {
+    margin-bottom: 20px;
+}
+.card{
+    margin-top: 4px;
+    margin-bottom: 4px;
+}
+.card-body {
+    font-size: .9em;
+    color: #03031a;
+}
+.plusminus {
+    font-weight: bolder;
+}
+.collpseex {
+    color: red;
+    font-weight: bolder;
+}
+
+.taskremaining{
+    cursor: pointer;
+    color:blue;
+}
+.notebutton {
+    color: #ab00ff;
+    font-size: .8em;
+     cursor: pointer;
+}
+.taskdone{
+	cursor: pointer;
+}
+.topheader {
+    font-size: 1em;
+    font-weight: bolder;
+    color: blue;
+}
+.calendar-wrap{
+	position: relative;
+}
+ .sitebrandingtop{
+	 position: absolute;
+    top: -8px;
+    width: 100%;
+    color: blue;
+ }
+
+.ftco-section {
+    
+    padding-top: 0!important;
+}
+.what{
+	 
+    margin-left: 10px;
+    color: #eb09ba;
+
+}
+.addtolist {
+     position: relative;
+}
+.starshow {
+     position: relative;
+}
+.signtop{
+    position: absolute;
+    font-size: .6em;
+    left: 1.5em;
+    color: blue;
+}
+.signtopminus{
+    position: absolute;
+    font-size: .6em;
+    left: 1.5em;
+    color: red;
+}
+.lovebutton{
+	position: relative;
+}
+.signtopminusbig {
+    position: absolute;
+    font-size: 1.5em;
+    left: 1.5em;
+    color: red;
+    bottom: 1em;
+}
+.copyright{
+	font-size:.8em;
+}
+
+.bigLove2{
+	font-size:2.5em;
+}
+
+.resulttext{
+    	font-size:.9em!important;
+}
+
+/* edit page and add page css*/
+.removemore {
+    cursor: pointer;
+    text-decoration: none;
+    color: red;
+    font-weight: bold;
+    background-color: #ff0;
+    border-radius: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+.jobdegi {
+    background-color: #aed9d5;
+    margin-bottom: 5px;
+}
+
+.disabledivwishlist {
+    opacity: .2;
+    pointer-events: none;
+}
+.desifield {
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    padding: 5px;
+}
+.form-control::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+            color: #cccccc94;
+            opacity: 1; /* Firefox */
+}
+
+.form-control:-ms-input-placeholder { /* Internet Explorer 10-11 */
+            color: #cccccc94;
+}
+
+.form-control::-ms-input-placeholder { /* Microsoft Edge */
+            color: #cccccc94;
+ }
+ /* image upload*/
+ .filediv {
+    margin: 5px;
+   
+    border: 1px solid #ccc;
+    padding: 5px;
+}
+#editdelete {
+    position: absolute;
+    top: -10px;
+    left: 15px;
+    font-size: 1.5em;
+	color:red;
+	cursor: pointer;
+}
+.filesare {
+    position: relative;
+    float: left;
+    width: 20%;
+}
+.clear{
+	clear:both;
+}
+label{
+	font-weight:bolder;
+}
+ /* edit page and add page css */
+
+/*dashboard page*/
+.desidata li.list-group-item {
+    border: 1px solid #ccc;
+    padding: 2px;
+}
+.bigloveshow .bigLove2 {
+    font-size: 1.2em;
+}
+.bigloveshow .signtopminusbig {
+    position: absolute;
+    font-size: 1em;
+    left: 0.8em;
+    color: red;
+    bottom: 1em;
+    top: -10px;
+}
+
+
+.fixdcustom {
+    position: fixed;
+    top: 73px;
+     
+    left: -60px;
+	z-index:9999999;
+    
+}
+.passworddiv{
+	position: relative;
+}
+.eyed {
+    position: absolute;
+    right: 5px;
+    top: 30px;
+    font-size: 1em;
+}
+.eyed2 {
+    position: absolute;
+    right: 5px;
+    top: 45px;
+    font-size: 1em;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.smalltext{
+	padding: 2px!important;
+    font-size: .8em!important;
+}
+.forrow .col{
+	padding-right: 1px;
+    padding-left: 1px;
+}
+.forrow{
+	margin: 0 auto;
+}
+.smalltextmonth{
+	min-width:80px;
+}
+.smalltextyear{
+	min-width:70px;
+}
+.smalltexttype{
+	min-width:100px;
+}
+@media only screen and (max-width: 375px){
+    a.nav-link {
+        padding: 1px;
+        font-size: .6em;
+    }
+    ul li a {
+    
+        font-size: .7em;
+    
+    }
+    a.nav-link {
+        padding: 1px 1px;
+    }
+    .smalltextmonth {
+    min-width: 40px;
+}
+.smalltextyear {
+    min-width: 30px;
+}
+.smalltexttype {
+    min-width: 60px;
+}
+.smalltext {
+    padding: 1px!important;
+    font-size: .6em!important;
+}
+}
+.form-control::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+            color: #cccccc94;
+            opacity: 1; /* Firefox */
+}
+
+.form-control:-ms-input-placeholder { /* Internet Explorer 10-11 */
+            color: #cccccc94;
+}
+
+.form-control::-ms-input-placeholder { /* Microsoft Edge */
+            color: #cccccc94;
+ }

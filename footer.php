@@ -1,0 +1,311 @@
+<!-- The Modal -->
+<div class="modal" id="loveme">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title ">
+                    আপনার পরামর্শ ও ভালবাসা পাঠান
+                </h4>
+                <button type="button" class="close" data<?php echo $bs; ?>dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body modalbackresponse">
+                <form action="" class="lovemef" method="post" id="lovemef" onsubmit="return lovemef();">
+                    <div class="form-group">
+
+                        <textarea class="form-control " rows="5" name="advice" id="advice"></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-block">Send</button>
+                </form>
+                <div class="lovemefmessage"></div>
+
+
+                <script>
+                //createhides
+                function lovemef() {
+
+
+                    var fd = new FormData(document.getElementById("lovemef"));
+
+
+                    var error = 0;
+
+                    if (!error) {
+
+                        jQuery('.lovemefmessage').html(
+                            '<div class="spinner-border text-info" role="status"> <span class="visually-hidden"></span></div>'
+                            );
+
+                        jQuery.ajax({
+                            url: "<?php echo $foldername; ?>/ajaxaction.php?lovemef=true",
+                            type: "POST",
+                            data: fd,
+                            enctype: 'multipart/form-data',
+                            success: function(data) {
+
+
+
+                                var json = jQuery.parseJSON(data);
+                                var message = json.message;
+
+                                jQuery('.lovemefmessage').html(message);
+                                jQuery('#lovemef').hide(500);
+
+
+
+
+                            },
+                            processData: false, // tell jQuery not to process the data
+                            contentType: false // tell jQuery not to set contentType
+                        });
+                    }
+                    return false;
+                };
+                </script>
+
+
+
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data<?php echo $bs; ?>dismiss="modal">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+<!-- The Modal -->
+<div class="modal" id="modaladdnote">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title ">
+
+                    নোট যুক্ত করুন
+                </h4>
+                <button type="button" class="close" data<?php echo $bs; ?>dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body modalbackresponse">
+                <form action="" class="notform" method="post" id="notform" onsubmit="return notform();">
+                    <div class="form-group">
+
+                        <textarea class="form-control modalnotestext" rows="5" name="notes" id="notes"></textarea>
+                    </div>
+                    <input type="hidden" class="form-control jobid" id="jobid" value="" name="jobid">
+                    <input type="hidden" class="form-control insert" id="insert" value="" name="insert">
+
+                    <button type="submit" class="btn btn-primary noteyesno">Add</button>
+                </form>
+                <div class="notestatus"></div>
+
+
+                <script>
+                //createhides
+                function notform() {
+
+
+                    var fd = new FormData(document.getElementById("notform"));
+
+
+                    var error = 0;
+
+                    if (!error) {
+
+                        jQuery('.notestatus').html(
+                            '<div class="spinner-border text-info" role="status"> <span class="visually-hidden"></span></div>'
+                            );
+
+                        jQuery.ajax({
+                            url: "/ajaxaction.php?noteadd=true",
+                            type: "POST",
+                            data: fd,
+                            enctype: 'multipart/form-data',
+                            success: function(data) {
+
+
+
+                                var json = jQuery.parseJSON(data);
+                                var message = json.message;
+
+                                jQuery('.notestatus').html(message);
+
+
+
+
+                            },
+                            processData: false, // tell jQuery not to process the data
+                            contentType: false // tell jQuery not to set contentType
+                        });
+                    }
+                    return false;
+                };
+                </script>
+
+
+
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data<?php echo $bs; ?>dismiss="modal">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script>
+jQuery(document).on('hidden.bs.modal', function(event) {
+    if (jQuery('.modal:visible').length) {
+        jQuery('body').addClass('modal-open');
+    }
+});
+</script>
+
+<!-- The Modal -->
+<div class="modal" id="modalexamdate">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">লাভ বাটনে কেন ক্লিক করবেন</h4>
+                <button type="button" class="close" data<?php echo $bs; ?>dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <?php
+		
+		echo alttextmodal(array(
+		'type'=>'examdate'
+		));
+		?>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data<?php echo $bs; ?>dismiss="modal">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+<!-- The Modal -->
+<div class="modal" id="starexamdate">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">কেন স্টার দেখছেন?</h4>
+                <button type="button" class="close" data<?php echo $bs; ?>dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+
+
+                কারন আপনি এই পরীক্ষাটি দিতে চান মর্মে আপনার প্রোফাইলে যুক্ত করেছেন।
+                প্রোফাইলের ড্যাসবোর্ডে চেক করলে আপনার স্টার করা সকল পরীক্ষার তালিকা দেখতে পাবেন।
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data<?php echo $bs; ?>dismiss="modal">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+<!-- The Modal -->
+<div class="modal" id="starapplystartendloveminus">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">কেন লাভ মাইনাস দেখছেন?</h4>
+                <button type="button" class="close" data<?php echo $bs; ?>dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+
+
+                আপনি লাভ মাইনাস দেখতে পাচ্ছেন কারন এই পরীক্ষাটিতে আপনি আবেদন করবেন বলে মনস্থির করেছেন।
+                এবং ক্যালেন্ডারে এই তারিখে আপনার জন্য একটা স্টার সাইন যোগ করা হয়েছে যেন সহজে দেখেই বুঝতে পারেন।
+                এখন লাভ মাইনাসে ক্লিক করলে পরীক্ষাটি আপনার প্রোফাইল থেকে সরানো হবে এবং ক্যালেন্ডারে স্টার সাইন দেখতে
+                পাবেন না।
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data<?php echo $bs; ?>dismiss="modal">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+<!-- The Modal -->
+<div class="modal" id="starapplystartendloveplus">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">কেন লাভ প্লাস দেখছেন?</h4>
+                <button type="button" class="close" data<?php echo $bs; ?>dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+
+
+                আপনি লাভ প্লাসে ক্লিক করলে পরীক্ষাটি আপনার প্রোফাইলে যুক্ত হবে এবং ক্যালেন্ডারে স্টার সাইন দেখাবে।
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data<?php echo $bs; ?>dismiss="modal">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="mt-5 p-4 bg-dark text-white text-center">
+    <p>© 2023 Exam Calendar </p>
+    <p class="copyright"> বাংলাদেশ সরকারের কপিরাইট আইনে কোন আইডিয়া, ফিচার বা ফাংশন
+        সম্পূর্ণ বা আংশিক কপি করা বা পরিবর্তন করে ব্যবহার করা আইনত দণ্ডনীয় অপরাধ এবং এহেন অপরাধের সাথে জড়িত সকলের
+        বিরুদ্ধে আইনানুগ ব্যবস্থা নেওয়া হবে। </p>
+</div>
+</body>
+
+</html>

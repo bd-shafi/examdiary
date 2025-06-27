@@ -1,0 +1,202 @@
+<?php
+include_once('connection.php');
+include_once('userdata.php');
+$jid = $conn->real_escape_string($_GET['jid']);
+$bs = '-bs-';
+$sqlrow = "SELECT * FROM circularpdfimages where incidentid='$jid' limit 1";
+       
+		$result = mysqli_query($conn, $sqlrow);
+		$row = mysqli_fetch_array($result);
+	    $imageurl = $row['imageurl'];
+		 
+		
+?>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <title>Dahsboard | Exam Calendar</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="images/examcalendar-website-favicon-color.svg" sizes="any" type="image/svg+xml">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="js/jquery.min.js"></script>
+    <link rel="stylesheet" href="css/custom.css?v=<?php echo rand(1,100); ?>">
+    <style>
+    .fakeimg {
+        height: 200px;
+        background: #aaa;
+    }
+
+    .card-link {
+        text-decoration: none;
+    }
+
+    /* CSS for responsive iframe */
+    /* ========================= */
+
+    /* outer wrapper: set max-width & max-height; max-height greater than padding-bottom % will be ineffective and height will = padding-bottom % of max-width */
+    #Iframe-Master-CC-and-Rs {
+        max-width: 100%;
+        max-height: 100%;
+        overflow: hidden;
+    }
+
+    /* inner wrapper: make responsive */
+    .responsive-wrapper {
+        position: relative;
+        height: 0;
+        /* gets height from padding-bottom */
+
+        /* put following styles (necessary for overflow and scrolling handling on mobile devices) inline in .responsive-wrapper around iframe because not stable in CSS:
+    -webkit-overflow-scrolling: touch; overflow: auto; */
+
+    }
+
+    .responsive-wrapper iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+
+        margin: 0;
+        padding: 0;
+        border: none;
+    }
+
+    /* padding-bottom = h/w as % -- sets aspect ratio */
+    /* YouTube video aspect ratio */
+    .responsive-wrapper-wxh-572x612 {
+        padding-bottom: 107%;
+    }
+
+    /* general styles */
+    /* ============== */
+    .set-border {
+        border: 5px inset #4f4f4f;
+    }
+
+    .set-box-shadow {
+        -webkit-box-shadow: 4px 4px 14px #4f4f4f;
+        -moz-box-shadow: 4px 4px 14px #4f4f4f;
+        box-shadow: 4px 4px 14px #4f4f4f;
+    }
+
+    .set-padding {
+        padding: 40px;
+    }
+
+    .set-margin {
+        margin: 30px;
+    }
+
+    .center-block-horiz {
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
+    </style>
+    <?php   include_once('facebook.php');   ?>
+</head>
+
+<body>
+
+    <div class="p-5 bg-primary text-white text-center">
+        <img width="300" height="100" class="img-responsive" src="<?php echo $foldername; ?>/images/logo-no-background.svg"
+            alt="ExamCalendar Logo" />
+
+    </div>
+
+    <nav class="navbar navbar-expand-sm bg-light justify-content-center">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="<?php echo $foldername; ?>/">Home</a>
+            <button class="navbar-toggler" type="button" data<?php echo $bs; ?>toggle="collapse"
+                data<?php echo $bs; ?>target="#collapsibleNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="collapsibleNavbar">
+                <ul class="navbar-nav">
+
+
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?php echo $foldername; ?>/?searchingfor=applystart">Apply Start</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?php echo $foldername; ?>/?searchingfor=applyend">Apply End</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?php echo $foldername; ?>/?searchingfor=examdate">Exam Day</a>
+                    </li>
+                    <li class="nav-item">
+
+                        <a class="nav-link  " sendaction="examdate" href="<?php echo $foldername; ?>/search.php">
+                            <i class='fa fa-search' aria-hidden='true'></i>
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button"
+                            data<?php echo $bs; ?>toggle="dropdown"><i class='fa fa-user' aria-hidden='true'></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="<?php echo $foldername; ?>/dashboard.php">Dashboard</a></li>
+                            <li><a class="dropdown-item" href="javascript: void(0)"><?php echo $displayname; ?></a></li>
+                            <li><a class="dropdown-item" href="javascript: void(0)"><?php echo $hidephone; ?></a></li>
+                            <li><a class="dropdown-item" href="javascript: void(0)"><?php echo $email; ?></a></li>
+
+                            <li>
+                                <?php
+        if($_COOKIE['exid'] == NULL){
+            ?>
+
+                                <a class="dropdown-item login" href="#" data-toggle="modal" data-target="#loginform"
+                                    href="#">Login</a>
+                                <?php
+        }else{
+            ?>
+                                <a class="dropdown-item" href="<?php echo $foldername; ?>/logout.php">
+
+                                    Log out
+
+                                </a>
+                                <?php
+        }
+        ?>
+                            </li>
+                        </ul>
+                    </li>
+
+
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+    <div class="container mt-5">
+
+        <!-- embed responsive iframe -->
+        <!-- ======================= -->
+
+        <div id="Iframe-Master-CC-and-Rs" class="set-margin set-padding set-border set-box-shadow center-block-horiz">
+            <div class="responsive-wrapper 
+     responsive-wrapper-wxh-572x612" style="-webkit-overflow-scrolling: touch; overflow: auto;">
+
+                <iframe src="<?php echo $imageurl; ?>">
+                    <p style="font-size: 110%;"><em><strong>ERROR: </strong>
+                            An &#105;frame should be displayed here but your browser version does not support
+                            &#105;frames. </em>Please update your browser to its most recent version and try again.</p>
+                </iframe>
+
+            </div>
+        </div>
+
+    </div>
+
+    <?php
+ 
+include_once('footer.php'); 

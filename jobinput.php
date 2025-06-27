@@ -1,0 +1,818 @@
+<?php
+if (isset($_GET['jid']) && $_GET['jid'] != NULL) {
+  include_once('loginneed.php');
+}
+include_once('connection.php');
+include_once('userdata.php');
+		$power = 0;
+		if($userid !=0){
+			$sqluser = "SELECT * FROM users where id='$userid' limit 1";
+			$resultuser = mysqli_query($conn, $sqluser);
+			$rowuser = mysqli_fetch_array($resultuser);     
+			$power = $rowuser['power'];
+		}
+		
+$jid = $conn->real_escape_string($_GET['jid']);
+$bs = '-bs-';
+
+		
+?>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <title>Job | Exam Calendar</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="images/examcalendar-website-favicon-color.svg" sizes="any" type="image/svg+xml">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="js/jquery.min.js"></script>
+    <link rel="stylesheet" href="css/custom.css?v=<?php echo rand(1,100); ?>">
+    <style>
+    .fakeimg {
+        height: 200px;
+        background: #aaa;
+    }
+
+    .card-link {
+        text-decoration: none;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+    </style>
+    <?php   include_once('facebook.php');   ?>
+</head>
+
+<body>
+
+    <div class="p-5 bg-primary text-white text-center">
+        <img width="300" height="100" class="img-responsive"
+            src="<?php echo $foldername; ?>/images/logo-no-background.svg" alt="ExamCalendar Logo" />
+
+    </div>
+
+    <nav class="navbar navbar-expand-sm bg-light justify-content-center">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="<?php echo $foldername; ?>/">Home</a>
+            <button class="navbar-toggler" type="button" data<?php echo $bs; ?>toggle="collapse"
+                data<?php echo $bs; ?>target="#collapsibleNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="collapsibleNavbar">
+                <ul class="navbar-nav">
+
+
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?php echo $foldername; ?>/?searchingfor=applystart">Apply Start</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?php echo $foldername; ?>/?searchingfor=applyend">Apply End</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?php echo $foldername; ?>/?searchingfor=examdate">Exam Day</a>
+                    </li>
+                    <li class="nav-item">
+
+                        <a class="nav-link  " sendaction="examdate" href="<?php echo $foldername; ?>/search.php">
+                            <i class='fa fa-search' aria-hidden='true'></i>
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button"
+                            data<?php echo $bs; ?>toggle="dropdown"><i class='fa fa-user' aria-hidden='true'></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="<?php echo $foldername; ?>/dashboard.php">Dashboard</a>
+                            </li>
+                            <li><a class="dropdown-item" href="javascript: void(0)"><?php echo $displayname; ?></a></li>
+                            <li><a class="dropdown-item" href="javascript: void(0)"><?php echo $hidephone; ?></a></li>
+                            <li><a class="dropdown-item" href="javascript: void(0)"><?php echo $email; ?></a></li>
+
+                            <li>
+                                <?php
+        if($_COOKIE['exid'] == NULL){
+            ?>
+
+                                <a class="dropdown-item login" href="#" data-toggle="modal" data-target="#loginform"
+                                    href="#">Login</a>
+                                <?php
+        }else{
+            ?>
+                                <a class="dropdown-item" href="<?php echo $foldername; ?>/logout.php">
+
+                                    Log out
+
+                                </a>
+                                <?php
+        }
+        ?>
+                            </li>
+                        </ul>
+                    </li>
+
+
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+    <div class="container mt-5">
+        <div class="row">
+
+            <div class="col-sm-12">
+                <?php
+ $sqlrow = "SELECT * FROM examdata where id='$jid' limit 1";
+       
+		$result = mysqli_query($conn, $sqlrow);
+		$row = mysqli_fetch_array($result);
+	 
+		 $otherusers = $row['otherusers'];
+		 $jobuserid = $row['userid'];
+		 $useraccess = useraccess($array=array(
+		 'jobuserid' =>$jobuserid
+		 ));
+		 if($useraccess['access'] != 1 && $jid != NULL){
+			 echo 'You don\'t have access to edit this  (job id: '.$jid.')';
+			 exit;
+		 }
+		 ?>
+
+
+
+
+                <form class="examaddform" action="" class="" id="examaddform" onsubmit="return examaddform();">
+
+                    <div class="form-group" <?php if($userid != NULL){ ?> style="display:none;" <?php } ?>>
+                        <label for="phone">Your Phone: <span class="mustrequired">*</span></label>
+                        <input required type="number" class="form-control" placeholder="" id="phone" name="phone"
+                            value="<?php echo $row['phone'] ? $row['phone'] : $userphone; ?>">
+                    </div>
+
+
+                    <div class="form-group" <?php if($userid != NULL){ ?> style="display:none;" <?php } ?>>
+                        <label for="email">Your Email address: <span class="mustrequired">*</span></label>
+                        <input required type="email" class="form-control" placeholder="" id="email" name="email"
+                            value="<?php echo $row['email'] ? $row['email'] : $useremail; ?>">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="organization">Organization/University: <span class="mustrequired">*</span></label>
+                        <input required type="text" class="form-control" placeholder="" id="organization"
+                            name="organization" value="<?php echo $row['organization']; ?>">
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="university">Circular Type: <span class="mustrequired">*</span></label></br>
+                        <div class="form-check-inline">
+                            <label class="form-check-label">
+                                <input type="radio" <?php echo $row['university']=='0' ?'checked':''; ?>
+                                    class="form-check-input university" name="university" value="0" required> Govt Job
+                            </label>
+                        </div>
+
+                        <div class="form-check-inline">
+                            <label class="form-check-label">
+                                <input type="radio" <?php echo $row['university']=='2' ?'checked':''; ?>
+                                    class="form-check-input university" name="university" value="2" required> Private
+                                Job
+                            </label>
+                        </div>
+                        <div class="form-check-inline">
+                            <label class="form-check-label">
+                                <input type="radio" <?php echo $row['university']=='1' ?'checked':''; ?>
+                                    class="form-check-input university" name="university" value="1" required> University
+                                Admission
+                            </label>
+                        </div>
+                        <div class="form-check-inline">
+                            <label class="form-check-label">
+                                <input type="radio" <?php echo $row['university']=='1' ?'checked':''; ?>
+                                    class="form-check-input university" name="university" value="4" required> Others
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="applyby">How to apply? <span class="mustrequired">*</span></label></br>
+                        <div class="form-check-inline">
+                            <label class="form-check-label">
+                                <input type="radio" <?php echo $row['applyby']=='teletalk' ?'checked':''; ?>
+                                    class="form-check-input applyby" name="applyby" value="teletalk" required> Teletalk
+                            </label>
+                        </div>
+                        <div class="form-check-inline">
+                            <label class="form-check-label">
+                                <input type="radio" <?php echo $row['applyby']=='bank' ?'checked':''; ?>
+                                    class="form-check-input applyby" name="applyby" value="bank" required> Bank
+                            </label>
+                        </div>
+
+                        <div class="form-check-inline ">
+                            <label class="form-check-label">
+                                <input required type="radio" <?php echo $row['applyby']=='other' ?'checked':''; ?>
+                                    class="form-check-input applyby" name="applyby" value="other" required> Other
+                            </label>
+                        </div>
+                        <div class="form-check-inline">
+                            <label class="form-check-label">
+                                <input type="radio" <?php echo $row['applyby']=='unknown' ?'checked':''; ?>
+                                    class="form-check-input applyby" name="applyby" value="unknown" required> Skip
+                            </label>
+                        </div>
+                        <script>
+                        jQuery('.applyby').change(function() {
+                            var rvalue = jQuery(this).val();
+                            jQuery('.codeorlinkdiv').css('display', 'block');
+
+                            if (rvalue == 'teletalk') {
+                                jQuery('.applybyhtml').html(
+                                    'Teletalk Code: <span class="mustrequired">*</span> (Example: BCS)');
+                                /// jQuery('.codeorlink').attr("type","text");
+                                jQuery('.codeorlink').attr("placeholder", "BCS");
+                            } else if (rvalue == 'bank') {
+                                jQuery('.applybyhtml').html(
+                                    'Bank Job ID: <span class="mustrequired">*</span> (Example: 10148)');
+                                /// jQuery('.codeorlink').attr("type","number");
+                                jQuery('.codeorlink').attr("placeholder", "10148");
+                            } else if (rvalue == 'unknown') {
+
+                                jQuery('.codeorlinkdiv').css('display', 'none');
+                            } else {
+                                jQuery('.applybyhtml').html(
+                                    'Please Enter Apply Link: <span class="mustrequired">*</span> (Example: www.bdjobs.com)'
+                                );
+                                ///jQuery('.codeorlink').attr("type","text");
+                                jQuery('.codeorlink').attr("placeholder", "www.bdjobs.com");
+                            }
+                        });
+                        </script>
+                    </div>
+
+                    <div class="form-group codeorlinkdiv">
+                        <label for="codeorlink" class="applybyhtml">Teletalk Code:</label>
+                        <input type="text" class="form-control codeorlink" placeholder="" id="codeorlink"
+                            name="codeorlink" value="<?php echo $row['shortcode']; ?>">
+                    </div>
+
+
+
+                    <div class="form-group applystartshow">
+                        <label for="applystart">Apply Start: </label>
+                        <input type="date" class="form-control" placeholder="" id="applystart" name="applystart"
+                            value="<?php echo $row['applystart']; ?>">
+                    </div>
+
+
+                    <div class="form-group applyendshow">
+                        <label for="applyend">Apply End: </label>
+                        <input type="date" class="form-control" placeholder="" id="applyend" name="applyend"
+                            value="<?php echo $row['applyend']; ?>">
+                    </div>
+
+
+
+
+
+
+
+
+                    <div class="alldesignation">
+                        <label for="examdate">Name of post/subject :</label>
+                        <?php
+    $getalldesignation = $row['examdateall'];
+
+    // Decode JSON examdateall safely
+    $getalldesignationdecode = json_decode($getalldesignation, true);
+
+    // If json_decode failed or not an array, fallback to explode designation string
+    if (!is_array($getalldesignationdecode)) {
+        if (!empty($row['designation'])) {
+            $explodeDesignations = explode(',', $row['designation']);
+            $getalldesignationdecode = [];
+            foreach ($explodeDesignations as $desig) {
+                $getalldesignationdecode[] = [
+                    'designations' => trim($desig),
+                    'date' => '',
+                    'time' => '',
+                    'uniqid' => uniqid(),
+                    'examtype' => 'Unknown',
+                    'datew' => '',
+                    'timew' => '',
+                    'examtypew' => 'Unknown',
+                    'datep' => '',
+                    'timep' => '',
+                    'examtypep' => 'Unknown',
+                    'datev' => '',
+                    'timev' => '',
+                    'examtypev' => 'Unknown',
+                ];
+            }
+        } else {
+            // No valid data fallback to empty array
+            $getalldesignationdecode = [];
+        }
+    }
+
+    $c = 0;
+    foreach ($getalldesignationdecode as $index => $ddata) {
+        $c++;
+        // Ensure $ddata keys exist (if not, set defaults)
+        $ddata = array_merge([
+            'designations' => '',
+            'date' => '',
+            'time' => '',
+            'uniqid' => uniqid(),
+            'examtype' => 'Unknown',
+            'datew' => '',
+            'timew' => '',
+            'examtypew' => 'Unknown',
+            'datep' => '',
+            'timep' => '',
+            'examtypep' => 'Unknown',
+            'datev' => '',
+            'timev' => '',
+            'examtypev' => 'Unknown',
+        ], $ddata);
+    ?>
+                        <div class="form-group desifield forremove<?php echo $c; ?>">
+                            <div class="row">
+                                <div class="col">
+                                    <input type="text" class="form-control jobdegi" placeholder=""
+                                        name="examdateset[designations][]"
+                                        value="<?php echo htmlspecialchars($ddata['designations']); ?>">
+                                </div>
+
+                                <div class="row">
+                                    <div class="col">
+                                        <input type="datetime-local" class="form-control" placeholder=""
+                                            name="examdateset[examdates][]"
+                                            value="<?php echo htmlspecialchars($ddata['date'] . ' ' . $ddata['time']); ?>">
+                                        <input type="hidden" class="form-control" placeholder="Enter uniqid"
+                                            name="examdateset[uniqid][]"
+                                            value="<?php echo htmlspecialchars($ddata['uniqid']); ?>">
+                                    </div>
+
+                                    <div class="col">
+                                        <select class="form-control" id="examtypes" name="examdateset[examtypes][]">
+                                            <option
+                                                <?php echo ($ddata['examtype'] == 'Preliminary') ? 'selected' : ''; ?>
+                                                value="Preliminary">Preliminary</option>
+                                            <option <?php echo ($ddata['examtype'] == 'Unknown') ? 'selected' : ''; ?>
+                                                value="Unknown">Unknown</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col">
+                                        <input type="datetime-local" class="form-control" placeholder=""
+                                            name="examdateset[examdatesw][]"
+                                            value="<?php echo htmlspecialchars($ddata['datew'] . ' ' . $ddata['timew']); ?>">
+                                    </div>
+
+                                    <div class="col">
+                                        <select class="form-control" id="examtypesw" name="examdateset[examtypesw][]">
+                                            <option <?php echo ($ddata['examtypew'] == 'Written') ? 'selected' : ''; ?>
+                                                value="Written">Written</option>
+                                            <option <?php echo ($ddata['examtypew'] == 'Unknown') ? 'selected' : ''; ?>
+                                                value="Unknown">Unknown</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col">
+                                        <input type="datetime-local" class="form-control" placeholder=""
+                                            name="examdateset[examdatesp][]"
+                                            value="<?php echo htmlspecialchars($ddata['datep'] . ' ' . $ddata['timep']); ?>">
+                                    </div>
+
+                                    <div class="col">
+                                        <select class="form-control" id="examtypesp" name="examdateset[examtypesp][]">
+                                            <option
+                                                <?php echo ($ddata['examtypep'] == 'Practical') ? 'selected' : ''; ?>
+                                                value="Practical">Practical</option>
+                                            <option <?php echo ($ddata['examtypep'] == 'Unknown') ? 'selected' : ''; ?>
+                                                value="Unknown">Unknown</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col">
+                                        <input type="datetime-local" class="form-control" placeholder=""
+                                            name="examdateset[examdatesv][]"
+                                            value="<?php echo htmlspecialchars($ddata['datev'] . ' ' . $ddata['timev']); ?>">
+                                    </div>
+
+                                    <div class="col">
+                                        <select class="form-control" id="examtypesv" name="examdateset[examtypesv][]">
+                                            <option <?php echo ($ddata['examtypev'] == 'Viva') ? 'selected' : ''; ?>
+                                                value="Viva">Viva</option>
+                                            <option <?php echo ($ddata['examtypev'] == 'Unknown') ? 'selected' : ''; ?>
+                                                value="Unknown">Unknown</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <a onclick="removeFun(<?php echo $c; ?>)" class="removemore">Remove-</a>
+                        </div>
+                        <?php
+    }
+    ?>
+                    </div>
+
+
+
+
+
+                    <div class="col-12 mx-auto text-center">
+                        <div class="addmore btn btn-info mx-auto"> Add more post+</div>
+                    </div>
+                    <script>
+                    var i = <?php echo $c; ?>;
+                    jQuery(".addmore").click(function() {
+                        //if (confirm("Are you sure you want to add more post?")){
+                        i++;
+                        jQuery('.alldesignation').append('<div class="form-group desifield forremove' + i +
+                            '"><div class="row"><div class="col"><input type="text" class="jobdegi form-control" placeholder="" name="examdateset[designations][]" value=""></div><div class="row"><div class="col"><input type="datetime-local" class="form-control" placeholder="" name="examdateset[examdates][]"></div><div class="col"><select class="form-control" id="examtypes" name="examdateset[examtypes][]"><option value="Preliminary">Preliminary</option><option value="Unknown">Unknown</option></select></div></div><div class="row"><div class="col"><input type="datetime-local" class="form-control" placeholder="" name="examdateset[examdatesw][]"></div><div class="col"><select class="form-control" id="examtypesw" name="examdateset[examtypesw][]"><option value="Written">Written</option><option value="Unknown">Unknown</option></select></div></div><div class="row"><div class="col"><input type="datetime-local" class="form-control" placeholder="" name="examdateset[examdatesp][]"></div><div class="col"><select class="form-control" id="examtypesp" name="examdateset[examtypesp][]"><option value="Practical">Practical</option><option value="Unknown">Unknown</option></select></div></div><div class="row"><div class="col"><input type="datetime-local" class="form-control" placeholder="" name="examdateset[examdatesv][]"></div><div class="col"><select class="form-control" id="examtypesv" name="examdateset[examtypesv][]"><option value="Viva">Viva</option><option value="Unknown">Unknown</option></select></div></div></div><a onClick="removeFun(' +
+                            i + ')" class="removemore">Remove-</a></div>');
+                        //}
+
+                    });
+                    </script>
+
+                    <script>
+                    function removeFun(e) {
+
+                        if (confirm("Are you sure you want to remove this post?")) {
+                            jQuery('.forremove' + e).remove();
+                        }
+                    }
+                    </script>
+
+
+
+
+
+                    <?php
+if($power !=0){?>
+
+                    <div class="form-group">
+                        <label for="status">Activate/Inactivate <span class="mustrequired">*</span></label></br>
+                        <div class="form-check-inline">
+                            <label class="form-check-label">
+                                <input type="radio" <?php echo $row['status']=='1' ?'checked':''; ?>
+                                    class="form-check-input status" name="status" value="1" required> Activate
+                            </label>
+                        </div>
+                        <div class="form-check-inline">
+                            <label class="form-check-label">
+                                <input type="radio" <?php echo $row['status']=='0' ?'checked':''; ?>
+                                    class="form-check-input status" name="status" value="0" required> Inactivate
+                            </label>
+                        </div>
+
+
+                    </div>
+                    <?php }
+
+ 
+  
+  if($jid !=NULL){
+	  $whycorrection = json_decode($row['whycorrection'], true);
+	  ?>
+
+                    <div class="form-group">
+                        <label for="status">Update Reason? </label></br>
+                        <div class="form-check-inline">
+                            <label class="form-check-label">
+                                <input type="checkbox" class="form-check-input"
+                                    <?php echo $whycorrection['se']==1? 'checked':''; ?> name="whycorrection[se]"
+                                    value="1"> Application Start/End Date Problem
+                            </label>
+                        </div>
+                        <div class="form-check-inline">
+                            <label class="form-check-label">
+                                <input type="checkbox" class="form-check-input"
+                                    <?php echo $whycorrection['po']==1?'checked':''; ?> name="whycorrection[po]"
+                                    value="1"> Post
+                            </label>
+                        </div>
+                        <div class="form-check-inline">
+                            <label class="form-check-label">
+                                <input type="checkbox" class="form-check-input"
+                                    <?php echo $whycorrection['ed']==1?'checked':''; ?> name="whycorrection[ed]"
+                                    value="1"> Exam Date
+                            </label>
+                        </div>
+
+                        <div class="form-check-inline">
+                            <label class="form-check-label">
+                                <input type="checkbox" class="form-check-input"
+                                    <?php echo $whycorrection['fi']==1?'checked':''; ?> name="whycorrection[fi]"
+                                    value="1"> File Upload
+                            </label>
+                        </div>
+
+
+
+
+                        <div class="form-check-inline">
+                            <label class="form-check-label">
+                                <input type="checkbox" class="form-check-input"
+                                    <?php echo $whycorrection['ot']==1?'checked':''; ?> name="whycorrection[ot]"
+                                    value="1"> Other
+                            </label>
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="whycorrectiontext">Describe your update reason:</label>
+                        <p style="font-size:.8em;">This will help us to approve your update soon</p>
+                        <textarea maxlength="100" class="form-control" rows="3" id="whycorrectiontext"
+                            name="whycorrectiontext"><?php echo $row['whycorrectiontext']; ?></textarea>
+                    </div>
+
+
+                    <?php } ?>
+
+
+                    <div class="form-group">
+                        <label for="examlocation">Exam Location:</label>
+                        <input type="text" class="form-control" placeholder="" id="examlocation" name="examlocation"
+                            value="<?php echo $row['examlocation']; ?>">
+                        <input type="hidden" class="form-control" placeholder="" id="jid" name="jid"
+                            value="<?php echo $jid; ?>">
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="details">More Info:</label>
+                        <textarea class="form-control" rows="3" id="details"
+                            name="details"><?php echo $row['details']; ?></textarea>
+                    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    <div class="form-group">
+
+                        <p>You can upload 'pdf', 'jpg', 'png', 'jpeg'</p>
+
+                        <label for="files">Circular Images/PDF:</label>
+
+                        <input id='files' type="file" name="files[]" multiple>
+
+
+
+                    </div>
+                    <div class="row filediv" <?php if($jid==NULL) { ?>style="display:none;" <?php } ?>>
+                        <?php
+
+		 $sqlp = "SELECT * from circularpdfimages where incidentid='$jid' and status!='0'";
+
+
+
+                $resultp = mysqli_query($conn, $sqlp);
+
+                 
+
+                if (mysqli_num_rows($resultp) > 0) {
+
+                    // output data of each row
+
+                    echo '</br>';
+
+                    while($rowp = mysqli_fetch_assoc($resultp)) {
+
+                	 ?>
+                        <div class="filesare filediv<?php echo $rowp['id']; ?>">
+                            <a class="editdelete" id="editdelete" jobid="<?php echo $jid; ?>"
+                                fileid="<?php echo $rowp['id']; ?>" filename="<?php echo $rowp['imageurl']; ?>">
+                                <i class="fa fa-remove" aria-hidden="true"></i>
+                            </a>
+
+                            <?php
+
+
+				$ext = strtolower(pathinfo($rowp['imageurl'], PATHINFO_EXTENSION));
+
+				if ($ext !='pdf' ) {
+
+					?>
+
+                            <a target="_blank" href="<?php echo $rowp['imageurl']; ?>">
+                                <img class="img-responsive img-fluid" width="100"
+                                    src="<?php echo $rowp['imageurl']; ?>" />
+                            </a>
+
+                            <?php
+
+				}else{
+
+					echo' <a target="_blank" href="'.$rowp['imageurl'].'">
+						<i style="font-size:6em; padding:10px;" class="fa fa-file-pdf-o" aria-hidden="true"></i>
+					</a>';
+
+				}
+				?>
+                            <div class="deletereport<?php echo $rowp['id']; ?>"></div>
+
+                        </div>
+
+
+                        <?php
+
+                    }
+
+                }else{
+					echo '<b>Circular images/pdf not found. You can upload..</b>';
+				}
+
+            ?>
+                        <div class="clear"></div>
+
+                    </div>
+                    <script>
+                    jQuery('.editdelete').click(function() {
+
+                        if (confirm('Are you sure you want to delete this file?')) {
+
+                            var error = 0;
+
+                            var fileid = jQuery(this).attr('fileid');
+                            var jobid = jQuery(this).attr('jobid');
+                            var filename = jQuery(this).attr('filename');
+
+
+
+
+                            if (!error) {
+
+                                jQuery('.deletereport' + fileid).html('....');
+
+                                jQuery.ajax({
+                                    url: '<?php echo $foldernameSlash; ?>ajaxaction.php?removefile=true',
+                                    type: 'POST',
+                                    data: {
+                                        fileid: fileid,
+                                        jobid: jobid,
+                                        filename: filename
+                                    },
+                                    success: function(data) {
+
+                                        var json = jQuery.parseJSON(data);
+
+                                        jQuery('.deletereport' + fileid).html('');
+
+
+                                        jQuery('.filediv' + fileid).hide(500);
+
+
+
+                                    },
+
+                                });
+                            }
+
+
+
+                        }
+
+
+
+                    });
+                    </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    <?php
+  if($jid == NULL){?>
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" <?php echo $row['notifyme']=='1' ?'checked':''; ?>
+                                type="checkbox" name="notifyme" value="1"> Notify Me
+                        </label>
+                    </div>
+                    <?php } ?>
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input required class="form-check-input" type="checkbox"> The information is true.
+                        </label>
+                    </div>
+                    <div class="form-group col-12">
+                        <button type="submit" style="width:100%" class="btn btn-primary btn-block">
+                            <?php
+  if($jid != NULL){
+	  echo'Update';
+  }else{
+	  echo'Add';
+	  
+  }
+  ?>
+
+
+                        </button>
+                    </div>
+                </form>
+                <div class="successmessage"></div>
+                <script>
+                //createhides
+                function examaddform() {
+
+                    //console.log("submit event");
+                    var fd = new FormData(document.getElementById("examaddform"));
+
+
+                    var error = 0;
+
+                    if (!error) {
+
+                        jQuery('.successmessage').html(
+                            '<div class="spinner-border text-info" role="status"> <span class="visually-hidden">Loading...</span></div>'
+                        );
+
+                        jQuery.ajax({
+                            url: "<?php echo $foldername; ?>/ajax.php?editexam=true",
+                            type: "POST",
+                            data: fd,
+                            enctype: 'multipart/form-data',
+                            success: function(data) {
+
+
+
+                                var json = jQuery.parseJSON(data);
+                                var message = json.message;
+                                jQuery('.successmessage').html(message);
+                                ///jQuery('.successmessage').html(message); 
+
+                                ///document.getElementById("examaddform").reset();
+
+
+
+
+
+                            },
+                            processData: false, // tell jQuery not to process the data
+                            contentType: false // tell jQuery not to set contentType
+                        });
+                    }
+                    return false;
+                };
+                </script>
+
+
+            </div>
+        </div>
+    </div>
+    <?php
+include_once('footer.php'); ?>
+
+
+</body>
+
+</html>

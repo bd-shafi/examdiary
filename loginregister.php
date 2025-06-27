@@ -1,0 +1,185 @@
+<!-- The Modal -->
+<div class="modal" id="loginform" data-backdrop="static" tabindex="-1" role="dialog"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title signuplogin">Login</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="logindiv">
+                    <div class="logintosite"></div>
+                    <form action="<?php echo $foldername; ?>/login.php" class="loginforms" method="post">
+
+                        <div class="form-group">
+                            <label for="phone">Phone:</label>
+                            <input required type="number" class="form-control" placeholder="Enter phone" id="sphone"
+                                name="phone">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="password">Password:</label>
+                            <input required type="password" class="form-control" placeholder="Enter Password"
+                                id="spassword" name="password">
+                        </div>
+
+                        <button type="submit" class="btn btn-primary loginclick btn-block" name="submit">Login</button>
+                    </form>
+                    <p class="signupnow">Don't have an account? Sign Up Now</p>
+                </div>
+
+
+                <div class="signupdiv" style="display:none;">
+                    <form action="" class="signupforms" method="post" id="signupforms" onsubmit="return signupforms();">
+                        <div class="form-group">
+                            <label for="name">Name:</label>
+                            <input required type="text" class="form-control" placeholder="Enter name" id="name"
+                                name="name">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email address:</label>
+                            <input required type="email" class="form-control" placeholder="Enter email" id="email"
+                                name="email" ]>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone:</label>
+                            <input required type="number" class="form-control" placeholder="Enter phone" id="phone"
+                                name="phone">
+                        </div>
+
+                        <div class="form-group passworddiv">
+                            <label for="firstpassword">Password:</label>
+                            <input required type="password" class="form-control" placeholder="Enter Password"
+                                id="firstpassword" name="password">
+                            <i class="fa fa-eye eyed2" onclick="showPass()"></i>
+                        </div>
+
+                        <div class="form-group passworddiv">
+                            <label for="repassword">Confirm Password:</label>
+                            <input required type="password" class="form-control" placeholder="Enter Password"
+                                id="repassword" name="repassword">
+                            <i class="fa fa-eye eyed2" onclick="showPass()"></i>
+                        </div>
+                        <script>
+                        function showPass() {
+                            var x = document.getElementById("repassword");
+                            var y = document.getElementById("firstpassword");
+                            if (x.type === "password") {
+                                x.type = "text";
+                                y.type = "text";
+                            } else {
+                                x.type = "password";
+                                y.type = "password";
+                            }
+                        }
+                        </script>
+                        <button type="submit" class="btn btn-primary  btn-block" name="submit">Signup</button>
+                    </form>
+                    <div class="signupsuccess"></div>
+                    <p class="loginnow">Already have an account? Login Now</p>
+                </div>
+
+                <script>
+                jQuery('.loginnow').click(function() {
+
+                    jQuery('.signupdiv').hide();
+                    jQuery('.logindiv').show();
+                    jQuery('.signuplogin').html('Login');
+
+                });
+
+                jQuery('.signupnow').click(function() {
+
+                    jQuery('.signupdiv').show();
+                    jQuery('.logindiv').hide();
+                    jQuery('.signuplogin').html('Sign up');
+
+                });
+                </script>
+
+
+                <script>
+                //createhides
+                function signupforms() {
+
+                    //console.log("submit event");
+                    var fd = new FormData(document.getElementById("signupforms"));
+                    var error = 0;
+                    var password = jQuery('#firstpassword').val();
+                    var repassword = jQuery('#repassword').val();
+                    if (password != repassword) {
+                        error = 1;
+                        alert('Password & Confirm Password must be same.');
+                        return false;
+
+                    }
+
+
+
+                    if (!error) {
+
+                        jQuery('.signupsuccess').html(
+                            '<div class="spinner-border text-info" role="status"> <span class="visually-hidden">Loading...</span></div>'
+                            );
+
+                        jQuery.ajax({
+                            url: "<?php echo $foldername; ?>/ajax.php?signup=true",
+                            type: "POST",
+                            data: fd,
+                            enctype: 'multipart/form-data',
+                            success: function(data) {
+
+
+
+                                var json = jQuery.parseJSON(data);
+                                var message = json.message;
+
+                                jQuery('.signupsuccess').html(message);
+                                jQuery('#spassword').val(json.password);
+                                jQuery('#sphone').val(json.phone);
+                                jQuery(".loginclick").trigger("click");
+
+                                document.getElementById("signupforms").reset();
+
+
+
+
+
+                            },
+                            processData: false, // tell jQuery not to process the data
+                            contentType: false // tell jQuery not to set contentType
+                        });
+                    }
+                    return false;
+                };
+                </script>
+
+
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<?php
+if (isset($_GET['logintosite']) && $_GET['logintosite'] == 'fail') {
+?>
+<script>
+jQuery(".login").trigger("click");
+jQuery(".logintosite").html(
+    '<div class="alert alert-danger alert-dismissible"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>Login failed, check Phone and Password!</strong></div>'
+    );
+</script>
+<?php
+}
+?>
