@@ -382,7 +382,7 @@ $notesearch = $conn->real_escape_string($_GET['notesearch']);
 	
 	
 	 
- $sql = "SELECT notes.id as noteid, notes.userid as noteuserid, notes.jobid as notejobid, notes.notes as notesdata,notes.time as notetime,examdata.*   FROM examdata
+ echo $sql = "SELECT notes.id as noteid, notes.userid as noteuserid, notes.jobid as notejobid, notes.notes as notesdata,notes.time as notetime,examdata.*   FROM examdata
 left JOIN   notes on notes.jobid=examdata.id and  notes.userid=$userid
 where  1=1 $queserysql
 group by examdata.id
