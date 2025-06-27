@@ -391,7 +391,8 @@ group by examdata.id
 	   
     $result = mysqli_query($conn, $sql);
     
-    
+    echo mysqli_num_rows($result) . " rows found";
+
     if (mysqli_num_rows($result) > 0) {
         $i = 0;
     
