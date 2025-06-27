@@ -387,7 +387,7 @@ left JOIN   notes on notes.jobid=examdata.id and  notes.userid=$userid
 where  1=1 $queserysql
 group by examdata.id
   ";
-	  
+	  echo 'data checking here';
 	   
     $result = mysqli_query($conn, $sql);
     
