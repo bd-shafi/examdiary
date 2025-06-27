@@ -385,28 +385,36 @@ $notesearch = $conn->real_escape_string($_GET['notesearch']);
 	
 	
 	 
- echo $sql = "SELECT notes.id as noteid, notes.userid as noteuserid, notes.jobid as notejobid, notes.notes as notesdata,notes.time as notetime,examdata.*   FROM examdata
-left JOIN   notes on notes.jobid=examdata.id and  notes.userid=$userid
-where  1=1 $queserysql
-group by examdata.id  ";
-	  echo 'data checking here';
-      var_dump($conn);
+ echo $sql = "
+ SELECT 
+     examdata.*, 
+     MAX(notes.id) AS noteid, 
+     MAX(notes.userid) AS noteuserid, 
+     MAX(notes.jobid) AS notejobid, 
+     MAX(notes.notes) AS notesdata, 
+     MAX(notes.time) AS notetime
+ FROM examdata
+ LEFT JOIN notes ON notes.jobid = examdata.id AND notes.userid = $userid
+ WHERE 1=1
+     $queserysql
+ GROUP BY examdata.id
+ ";
+ 
+	   ;
     $result = mysqli_query($conn, $sql);
-    var_dump($result);
+     
     
     if (!$result) {
         // SQL error occurred
         die("Query failed: " . mysqli_error($conn));
     }
-    echo mysqli_num_rows($result) . " rows found";
-echo 'checking hee';
+     mysqli_num_rows($result) . " rows found";
+ 
     if (mysqli_num_rows($result) > 0) {
         $i = 0;
     
         while ($row = mysqli_fetch_assoc($result)) {
-            echo "<pre>";
-    print_r($row);
-    echo "</pre>";
+            
             $i++;
             ?>
                                     <tr>
