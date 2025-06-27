@@ -142,10 +142,14 @@
             jQuery(".examdate").removeClass("active");
             jQuery(".applyend").addClass("active");
           }
-
+          if (window.location.href.includes("examcalendar.com")) {
+            var folder = "";
+          } else {
+            var folder = "/examcalendar";
+          }
           jQuery(".details").attr("searchingfor", searchingfor);
           jQuery.ajax({
-            url: "/ajax.php?brigmonth=true",
+            url: folder + "/ajax.php?brigmonth=true",
             type: "POST",
             data: {
               month: sendingmonth,
@@ -241,19 +245,25 @@
 
                 if (searchingfor == "applystart") {
                   jQuery("." + key).html(
-                    '<img src="/images/start.png"/> <span class="starx">' +
+                    '<img src="' +
+                      folder +
+                      '/images/start.png"/> <span class="starx">' +
                       json.evenArrayCount[key] +
                       "</span>"
                   );
                 } else if (searchingfor == "applyend") {
                   jQuery("." + key).html(
-                    '<img src="/images/end.png"/> <span class="starx">' +
+                    '<img src="' +
+                      folder +
+                      '/images/end.png"/> <span class="starx">' +
                       json.evenArrayCount[key] +
                       "</span>"
                   );
                 } else {
                   jQuery("." + key).html(
-                    '<img src="/images/exam.png"/> <span class="starx">' +
+                    '<img src="' +
+                      folder +
+                      '/images/exam.png"/> <span class="starx">' +
                       json.evenArrayCount[key] +
                       "</span>"
                   );
