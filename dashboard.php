@@ -1,9 +1,9 @@
 <?php
 include_once('loginneed.php');
 include_once('connection.php');
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
-ob_implicit_flush(true);
+// ini_set('display_errors', 1);
+// error_reporting(E_ALL);
+// ob_implicit_flush(true);
 include_once('userdata.php');
 $query = $conn->real_escape_string($_GET['query']);
 $bs = '-bs-';
@@ -385,7 +385,7 @@ $notesearch = $conn->real_escape_string($_GET['notesearch']);
 	
 	
 	 
- echo $sql = "
+  $sql = "
  SELECT 
      examdata.*, 
      MAX(notes.id) AS noteid, 
