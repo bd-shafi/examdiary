@@ -11,6 +11,7 @@ $liverSefer=true;
 if($liverSefer){//// #### for server
     $foldername='';
 $foldernameSlash='';
+//### read me: also update in js/main.js to examcalendar from there also
 }else{
     $foldername='/examcalendar';
     $foldernameSlash='/examcalendar/';

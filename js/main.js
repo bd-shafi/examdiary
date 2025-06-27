@@ -145,7 +145,7 @@
 
           jQuery(".details").attr("searchingfor", searchingfor);
           jQuery.ajax({
-            url: "/examcalendar/ajax.php?brigmonth=true",
+            url: "/ajax.php?brigmonth=true",
             type: "POST",
             data: {
               month: sendingmonth,
@@ -241,19 +241,19 @@
 
                 if (searchingfor == "applystart") {
                   jQuery("." + key).html(
-                    '<img src="/examcalendar/images/start.png"/> <span class="starx">' +
+                    '<img src="/images/start.png"/> <span class="starx">' +
                       json.evenArrayCount[key] +
                       "</span>"
                   );
                 } else if (searchingfor == "applyend") {
                   jQuery("." + key).html(
-                    '<img src="/examcalendar/images/end.png"/> <span class="starx">' +
+                    '<img src="/images/end.png"/> <span class="starx">' +
                       json.evenArrayCount[key] +
                       "</span>"
                   );
                 } else {
                   jQuery("." + key).html(
-                    '<img src="/examcalendar/images/exam.png"/> <span class="starx">' +
+                    '<img src="/images/exam.png"/> <span class="starx">' +
                       json.evenArrayCount[key] +
                       "</span>"
                   );
