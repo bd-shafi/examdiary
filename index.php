@@ -1,4 +1,5 @@
 <?php
+echo 'hi dear';
 include_once('connection.php');
 include_once('userdata.php');
 $searchmonth = $conn->real_escape_string($_GET['searchmonth']);
