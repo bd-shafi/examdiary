@@ -268,7 +268,7 @@ $sqlrow = "SELECT * FROM users where id='$userid' limit 1";
         <div class="row">
 
             <div class="col-sm-12">
-                <h2>Manage your exam</h2>
+                <h2>Manage your exam here</h2>
                 <?php
 	$query = $conn->real_escape_string($_GET['query']);
 $organization = $conn->real_escape_string($_GET['organization']);
