@@ -1,8 +1,7 @@
 <?php
-error_reporting(E_ALL & ~E_NOTICE & ~E_WARNING);
-
-// Turn off error display on production
-ini_set('display_errors', '1'); // Set to '0' in production
+// ✅ Error reporting: hide notices, warnings, deprecated
+error_reporting(E_ALL & ~E_NOTICE & ~E_WARNING & ~E_DEPRECATED);
+ini_set('display_errors', '0'); // Set to '1' only for development
 
 // Set your timezone
 date_default_timezone_set('Asia/Dhaka');
