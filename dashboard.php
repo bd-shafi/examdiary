@@ -385,8 +385,7 @@ $notesearch = $conn->real_escape_string($_GET['notesearch']);
  echo $sql = "SELECT notes.id as noteid, notes.userid as noteuserid, notes.jobid as notejobid, notes.notes as notesdata,notes.time as notetime,examdata.*   FROM examdata
 left JOIN   notes on notes.jobid=examdata.id and  notes.userid=$userid
 where  1=1 $queserysql
-group by examdata.id
-  ";
+group by examdata.id  ";
 	  echo 'data checking here';
       var_dump($conn);
     $result = mysqli_query($conn, $sql);
@@ -402,6 +401,9 @@ echo 'checking hee';
         $i = 0;
     
         while ($row = mysqli_fetch_assoc($result)) {
+            echo "<pre>";
+    print_r($row);
+    echo "</pre>";
             $i++;
             ?>
                                     <tr>
