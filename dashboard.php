@@ -390,7 +390,10 @@ group by examdata.id
 	  echo 'data checking here';
 	   
     $result = mysqli_query($conn, $sql);
-    
+    if (!$result) {
+        // SQL error occurred
+        die("Query failed: " . mysqli_error($conn));
+    }
     echo mysqli_num_rows($result) . " rows found";
 echo 'checking hee';
     if (mysqli_num_rows($result) > 0) {
