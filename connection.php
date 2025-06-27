@@ -5,10 +5,22 @@ $today = date("Y-m-d H:i:s");
 $todaydate = date("Y-m-d");
 $todate = date("Y-m-d");
 ///pdfseller db start
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "examcalendar";
+///////### for localhost
+if($liverSefer){//// #### for server
+    $servername = "localhost";
+    $username = "examcalenderuser";
+    $password = "6&qaialCI=";
+    $dbname = "dbeaver_db";
+}else{
+        $servername = "localhost";
+        $username = "root";
+        $password = "";
+        $dbname = "examcalendar";
+    }
+
+
+
+
 // pdfseller db end
  
 $persmscharge = .40;

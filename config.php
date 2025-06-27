@@ -6,5 +6,13 @@ ini_set('display_errors', '1'); // Set to '0' in production
 
 // Set your timezone
 date_default_timezone_set('Asia/Dhaka');
-$foldername='/examcalendar';
-$foldernameSlash='/examcalendar/';
+$liverSefer=true;
+
+
+if($liverSefer){//// #### for server
+    $foldername='';
+$foldernameSlash='';
+}else{
+    $foldername='/examcalendar';
+    $foldernameSlash='/examcalendar/';
+    }
