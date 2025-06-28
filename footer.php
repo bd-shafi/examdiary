@@ -38,7 +38,7 @@
 
                         jQuery('.lovemefmessage').html(
                             '<div class="spinner-border text-info" role="status"> <span class="visually-hidden"></span></div>'
-                            );
+                        );
 
                         jQuery.ajax({
                             url: "<?php echo $foldername; ?>/ajaxaction.php?lovemef=true",
@@ -126,7 +126,7 @@
 
                         jQuery('.notestatus').html(
                             '<div class="spinner-border text-info" role="status"> <span class="visually-hidden"></span></div>'
-                            );
+                        );
 
                         jQuery.ajax({
                             url: "/ajaxaction.php?noteadd=true",
@@ -301,10 +301,12 @@ jQuery(document).on('hidden.bs.modal', function(event) {
 </div>
 
 <div class="mt-5 p-4 bg-dark text-white text-center">
-    <p>© 2023 Exam Calendar </p>
+    <p>© 2025 Exam Calendar </p>
     <p class="copyright"> বাংলাদেশ সরকারের কপিরাইট আইনে কোন আইডিয়া, ফিচার বা ফাংশন
         সম্পূর্ণ বা আংশিক কপি করা বা পরিবর্তন করে ব্যবহার করা আইনত দণ্ডনীয় অপরাধ এবং এহেন অপরাধের সাথে জড়িত সকলের
-        বিরুদ্ধে আইনানুগ ব্যবস্থা নেওয়া হবে। </p>
+        বিরুদ্ধে আইনানুগ ব্যবস্থা নেওয়া হবে। <a
+            href="https://drive.google.com/drive/folders/1k93UlyJZzAqYOgd2a-hjmR9RRLdcLKa6?usp=sharing">View copyright
+            certificate</a> </p>
 </div>
 </body>
 
